@@ -1,0 +1,126 @@
+{% extends 'layout.html' %} {% block head %}
+<title>Edit Project</title>
+<style>
+  :root {
+    --warna-kedua: #ff5841;
+    --warna-utama: #c53678;
+    --background-terang: #ffffff;
+    --text-gelap: #1f242d;
+    --background-kartu: #f0f0f0;
+  }
+
+  .edit-page-container {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: var(--background-kartu);
+    color: var(--text-gelap);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .edit-page-container h1 {
+    color: var(--warna-utama);
+    margin-bottom: 25px;
+    text-align: center;
+  }
+
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+  }
+
+  input[type="text"],
+  input[type="url"],
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid var(--warna-kedua);
+    background-color: var(--background-terang);
+    color: var(--text-gelap);
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    resize: vertical;
+    height: 120px;
+  }
+
+  button[type="submit"] {
+    background-color: var(--warna-utama);
+    color: var(--background-terang);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    width: 100%;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #e54c37;
+  }
+
+  .back-link-container {
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  .back-button-edit {
+    display: inline-block;
+    background-color: var(--warna-kedua);
+    color: var(--background-terang);
+    padding: 10px 20px;
+    border: 1px solid var(--warna-utama);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+
+  .back-button-edit:hover {
+    background-color: #a42c62;
+    border-color: var(--warna-utama);
+  }
+</style>
+{% endblock %} {% block body %}
+<div class="edit-page-container">
+  <h1>Edit Project: {{ project.title }}</h1>
+  <form
+    id="updateProjectForm"
+    method="POST"
+    action="/api/update_project_form/{{ project.id }}"
+  >
+    <label for="edit_title">Judul Project:</label>
+    <input
+      type="text"
+      id="edit_title"
+      name="title"
+      value="{{ project.title }}"
+      required
+    />
+    <label for="edit_description">Deskripsi Singkat:</label>
+    <textarea id="edit_description" name="description" required>
+{{ project.description }}</textarea
+    >
+    <label for="edit_image">Nama File Gambar/URL:</label>
+    <input
+      type="text"
+      id="edit_image"
+      name="image"
+      value="{{ project.image }}"
+    />
+    <label for="edit_link">Link Project (URL):</label>
+    <input type="url" id="edit_link" name="link" value="{{ project.link }}" />
+    <button type="submit">Update Project</button>
+  </form>
+  <div class="back-link-container">
+    <a href="{{ url_for('home') }}" class="back-button-edit">Kembali</a>
+  </div>
+</div>
+{% endblock %}

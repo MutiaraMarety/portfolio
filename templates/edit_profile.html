@@ -1,0 +1,139 @@
+{% extends 'layout.html' %} {% block head %}
+<title>Edit Profile</title>
+<style>
+  :root {
+    --warna-kedua: #ff5841;
+    --warna-utama: #c53678;
+    --background-terang: #ffffff;
+    --text-gelap: #1f242d;
+    --background-kartu: #f0f0f0;
+  }
+
+  .edit-page-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: var(--background-kartu);
+    color: var(--text-gelap);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  }
+
+  .edit-page-container h1 {
+    color: var(--warna-utama);
+    margin-bottom: 25px;
+    text-align: center;
+  }
+
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+  }
+
+  input[type="text"],
+  textarea,
+  input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid var(--warna-kedua);
+    background-color: var(--background-terang);
+    color: var(--text-gelap);
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    resize: vertical;
+    height: 100px;
+  }
+
+  button[type="submit"] {
+    background-color: var(--warna-utama);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+    width: 100%;
+    font-weight: bold;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #e54c37;
+  }
+
+  .back-link-container {
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  .back-button-edit {
+    display: inline-block;
+    background-color: var(--warna-kedua);
+    color: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid var(--warna-utama);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+
+  .back-button-edit:hover {
+    background-color: #a42c62;
+    border-color: var(--warna-utama);
+  }
+
+  hr {
+    border-color: var(--warna-kedua);
+    margin: 30px 0;
+  }
+</style>
+{% endblock %} {% block body %}
+<div class="edit-page-container">
+  <h1>Edit Profil Pengguna</h1>
+  <section class="edit-text-data">
+    <h2>Nama & Bio</h2>
+    <form
+      id="textUpdateForm"
+      method="POST"
+      action="/api/update_profile_text/{{ user_id }}"
+    >
+      <label for="edit_name">Nama:</label>
+      <input
+        type="text"
+        id="edit_name"
+        name="name"
+        value="{{ profile.name if profile and profile.name else '' }}"
+      />
+      <label for="edit_bio">Bio:</label>
+      <textarea id="edit_bio" name="bio">
+        {{ profile.bio if profile and profile.bio else '' }}</textarea
+      >
+      <button type="submit">Update Nama & Bio</button>
+    </form>
+  </section>
+  <hr />
+  <section class="edit-photo-data">
+    <h2>Foto Profil</h2>
+    <form
+      id="photoUpdateForm"
+      method="POST"
+      action="/api/update_profile_photo/{{ user_id }}"
+      enctype="multipart/form-data"
+    >
+      <label for="photo">Pilih Foto Baru:</label>
+      <input type="file" id="photo" name="photo" accept="image/*" required />
+      <button type="submit">Upload Foto Profil</button>
+    </form>
+  </section>
+  <div class="back-link-container">
+    <a href="{{ url_for('home') }}" class="back-button-edit">Kembali</a>
+  </div>
+</div>
+
+{% endblock %}

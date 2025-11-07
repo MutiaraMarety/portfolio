@@ -1,0 +1,87 @@
+{% extends 'layout.html' %} {% block head %}
+<title>Halaman Login</title>
+<style>
+  :root {
+    --warna-kedua: #ff5841;
+    --warna-utama: #c53678;
+    --background-terang: #ffffff;
+    --text-gelap: #1f242d;
+    --background-kartu: #f0f0f0;
+  }
+
+  .card {
+    background-color: var(--background-kartu);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: var(--text-gelap);
+  }
+
+  .card-header {
+    background-color: var(--warna-kedua);
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    color: var(--background-terang);
+    padding: 15px;
+  }
+
+  .card-header h2 {
+    color: var(--background-terang);
+    font-size: 24px;
+    margin: 0;
+  }
+
+  .form-control {
+    border: 1px solid var(--warna-kedua);
+    padding: 10px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: var(--background-terang);
+    color: var(--text-dark);
+  }
+
+  .form-control:focus {
+    border-color: var(--warna-utama);
+    box-shadow: 0 0 0 0.25rem rgba(255, 88, 65, 0.25);
+  }
+
+  .btn-primary {
+    background-color: var(--warna-utama);
+    border-color: var(--warna-utama);
+    color: var(--background-terang);
+    font-weight: bold;
+    padding: 10px;
+    transition: background-color 0.3s;
+  }
+
+  .btn-primary:hover {
+    background-color: #e54c37;
+    border-color: #e54c37;
+  }
+</style>
+{% endblock %} {% block body %}
+<div class="mt-5"></div>
+<div class="row justify-content-center">
+  <div class="col-4">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="text-center">Halaman Login</h2>
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input name="inpUsername" type="username" class="form-control" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input name="inpPass" type="password" class="form-control" />
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary mt-4">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

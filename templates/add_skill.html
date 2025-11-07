@@ -1,0 +1,127 @@
+{% extends "layout.html" %} {% block head %}
+<title>Tambah Skill</title>
+<style>
+  :root {
+    --warna-kedua: #ff5841;
+    --warna-utama: #c53678;
+    --background-terang: #ffffff;
+    --text-gelap: #1f242d;
+    --background-kartu: #f0f0f0;
+  }
+
+  .content-management {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: var(--warna-utama);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  }
+
+  .content-management h1,
+  .content-management h2 {
+    text-align: center;
+    color: #ffffff;
+  }
+
+  form {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background-color: var(--background-kartu);
+  }
+
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: var(--text-gelap);
+  }
+
+  input[type="text"],
+  input[type="url"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid var(--warna-kedua);
+    background-color: var(--background-terang);
+    color: var(--text-gelap);
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  button[type="submit"] {
+    background-color: var(--warna-utama);
+    color: #ffffff; /* Mengubah warna teks tombol agar lebih terlihat */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-right: 15px;
+    flex-grow: 1;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #e54c37;
+  }
+
+  .back-button {
+    display: inline-block;
+    background-color: var(--warna-kedua);
+    color: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid var(--warna-utama);
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+
+  .back-button:hover {
+    background-color: #a42c62;
+    border-color: var(--warna-kedua);
+  }
+
+  hr {
+    border-color: rgba(255, 255, 255, 0.4);
+    margin: 40px 0;
+  }
+</style>
+{% endblock %} {% block body %}
+<div class="content-management">
+  <section class="add-skill-form">
+    <h2>Tambah Skill Baru</h2>
+    <form id="addSkillForm" method="POST" action="{{ url_for('add_skill') }}">
+      <label for="skill_name">Nama Skill:</label>
+      <input type="text" id="skill_name" name="name" required />
+      <label for="skill_level">Level:</label>
+      <select id="skill_level" name="level" required>
+        <option value="">-- Pilih Level --</option>
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Expert">Expert</option>
+      </select>
+      <label for="skill_icon">Icon (Class FontAwesome):</label>
+      <input type="text" id="skill_icon" name="icon" />
+      <div class="form-actions">
+        <button type="submit">Simpan Skill</button>
+        <a href="{{ url_for('home') }}" class="back-button">← Kembali</a>
+      </div>
+    </form>
+  </section>
+</div>
+{% endblock %}

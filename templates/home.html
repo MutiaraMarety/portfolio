@@ -1,0 +1,204 @@
+{% extends 'layout.html' %} {% block head %}
+<title>Personal Website</title>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/style.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+{% endblock %}
+
+{% block body %}
+<header>
+  <nav class="navbar">
+    <a href="#" class="logo">Portfolio</a>
+    <ul>
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#skill">Skills</a></li>
+      <li><a href="#project">Projects</a></li>
+      {% if user_id %}
+        <li><a href="{{ url_for('edit_profile', user_id=user_id) }}">Edit Profile</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      {% else %}
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+</header>
+
+<main>
+    <section class="home">
+    <div class="home-info">
+        <h1>{{ profile.name if profile else 'Pengguna' }}</h1>
+        <h2>
+            <span></span>
+        </h2>
+        <p>
+          {{ profile.bio if profile else 'Selamat datang di
+        portofolio saya! Saya adalah pengembang yang bersemangat dalam membangun
+        solusi digital yang efisien dan menarik.' }}
+        <div class="btn-sci">
+            <div class="sci">
+                <a href="https://github.com/MutiaraMarety"><i class="fab fa-github"></i></a>
+                <a href="https://www.instagram.com/mutiaramarety"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/081545479746"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="mailto:mutiaraagape@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+        </p>
+      </div>
+      <div class="home-img">
+        <div class="img-box">
+            <div class="img-item">
+                <img src="{{ url_for('static', filename='img/' + (profile.photo if profile and profile.photo and profile.photo != 'null' else 'default.jpg')) }}" alt="Foto Profil">
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="skill" id="skill">
+    <h2 class="heading">Skills</h2>
+    <div class="skill-container">
+        {% if skills %}
+            {% for skill in skills %}
+                <div class="skill-box editable-skill" data-skill-id="{{ skill[0] }}">
+                    <div class="skill-info">
+                        <i class="{{ skill[3] }}"></i>
+                        <h4>{{ skill[1] }}</h4>
+                        <p>Level: {{ skill[2] }}</p>
+                    </div>
+                    {% if user_id %}
+                    <div class="skill-options">
+                        <button class="options-toggle">
+                            <i class="fas fa-ellipsis-v"></i> </button>
+                        <div class="dropdown-menu hidden">
+                            <a href="{{ url_for('edit_skill_page', skill_id=skill[0]) }}" class="edit-btn">Edit</a>
+                            
+                            <form method="POST" action="/api/delete_skill_form/{{ skill[0] }}" style="display: inline;">
+                                <button type="submit" class="delete-btn" onclick="return confirm('Apakah Anda yakin ingin menghapus skill {{ skill[1] }}?');" style="all: unset; cursor: pointer; display: block; padding: 0.5rem 1rem; text-align: left; width: 100%;">Hapus</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+          {% else %}                      
+            <p>Belum ada skill yang ditambahkan.</p>
+          {% endif %}
+          {% if user_id %}
+          <a href="{{ url_for('add_skill_page') }}" class="skill-box" title="Tambah Skill Baru">
+              <div class="skill-info">
+                  <i class="fa-solid fa-plus add-icon"></i> 
+                  <h4>Tambah Skill</h4>
+                  <p>Klik untuk menambah konten</p>
+              </div>
+          </a>
+          {% endif %}
+    </div>
+    </section>
+
+    <section class="project" id="project">
+    <div class="project-container">
+        <h1 class="sub-title">Projects</h1>
+        <div class="project-list">
+            {% if projects %}
+              {% for project in projects %}
+                <div class="project-item editable-project" data-project-id="{{ project[0] }}">
+                    <div class="project-img-box"> 
+                        <img src="{{ url_for('static', filename='img/' + project[3]) }}" alt="Gambar Project: {{ project[1] }}">
+                    </div>
+                    <div class="project-info-box">
+                        <h3>{{ project[1] }}</h3>
+                        <p>{{ project[2] }}</p>
+                        {% if project[4] %}
+                          <a href="{{ project[4] }}" target="_blank" class="project-link">Lihat Project</a>
+                        {% endif %}
+                    </div>
+                    {% if user_id %}
+                <div class="project-options">
+                    <button class="options-toggle-project">
+                        <i class="fas fa-ellipsis-vertical"></i>
+                    </button>
+                    <div class="dropdown-menu-project hidden">
+                        <a href="{{ url_for('edit_project_page', project_id=project[0]) }}" class="edit-btn-project">Edit</a>
+                        
+                        <form method="POST" action="/api/delete_project_form/{{ project[0] }}" style="display: inline;">
+                            <button type="submit" class="delete-btn-project" onclick="return confirm('Yakin hapus project {{ project[1] }}?');" style="all: unset; cursor: pointer; display: block; padding: 0.5rem 1rem; text-align: left; width: 100%;">Hapus</button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+                </div>
+              {% endfor %}
+            {% else %}
+                <p>Belum ada project yang ditambahkan.</p>
+            {% endif %}
+            {% if user_id %}
+            <a href="{{ url_for('add_project_page') }}" class="project-item add-project-card" title="Tambah Project Baru">
+                <div class="project-info-box add-info-box"> 
+                    <i class="fa-solid fa-plus add-icon"></i>
+                    <h4>Tambah Project</h4>
+                    <p>Klik untuk menambah konten</p>
+                </div>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const optionToggles = document.querySelectorAll('.options-toggle');
+        optionToggles.forEach(toggleButton => {
+            toggleButton.addEventListener('click', function(event) {
+                event.stopPropagation();
+                const dropdown = toggleButton.nextElementSibling;
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    if (menu !== dropdown) {
+                        menu.classList.add('hidden');
+                        menu.classList.remove('visible');
+                    }
+                });
+                dropdown.classList.toggle('hidden');
+                dropdown.classList.toggle('visible');
+            });
+        });
+        
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.add('hidden');
+                menu.classList.remove('visible');
+            });
+        });
+
+        const optionTogglesProject = document.querySelectorAll('.options-toggle-project');
+        optionTogglesProject.forEach(toggleButton => {
+            toggleButton.addEventListener('click', function(event) {
+                event.stopPropagation();
+                const dropdown = toggleButton.nextElementSibling;
+                document.querySelectorAll('.dropdown-menu-project').forEach(menu => {
+                    if (menu !== dropdown) {
+                        menu.classList.add('hidden');
+                        menu.classList.remove('visible');
+                    }
+                });
+                dropdown.classList.toggle('hidden');
+                dropdown.classList.toggle('visible');
+            });
+        });
+        
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.dropdown-menu-project').forEach(menu => {
+                menu.classList.add('hidden');
+                menu.classList.remove('visible');
+            });
+        });
+    });
+</script>
+</main>
+{% endblock %}

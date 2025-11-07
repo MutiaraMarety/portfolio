@@ -1,0 +1,123 @@
+{% extends 'layout.html' %} {% block head %}
+<title>Edit Skill</title>
+<style>
+:root {
+    --warna-kedua: #FF5841;
+    --warna-utama: #C53678;
+    --background-terang: #FFFFFF;
+    --text-gelap: #1f242d;
+    --background-kartu: #f0f0f0;
+}
+
+.content-management {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: var(--background-kartu);
+    color: var(--text-gelap);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.content-management h1 {
+    color: var(--warna-utama);
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 32px;
+}
+
+#updateSkillForm {
+    padding: 0;
+    margin: 0;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: var(--text-gelap);
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid var(--warna-kedua);
+    background-color: var(--background-terang);
+    color: var(--text-gelap);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-top: 25px;
+    gap: 15px;
+}
+
+button[type="submit"] {
+    background-color: var(--warna-utama);
+    color: var(--background-terang);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    flex-grow: 1;
+}
+
+button[type="submit"]:hover {
+    background-color: #e54c37;
+}
+
+.back-button {
+    display: inline-block;
+    background-color: var(--warna-kedua);
+    color: var(--background-terang);
+    padding: 10px 20px;
+    border: 1px solid var(--warna-utama);
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    flex-shrink: 0;
+}
+
+.back-button:hover {
+    background-color: #a42c62;
+    border-color: var(--warna-utama);
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="content-management">
+    <h1>Edit Skill: {{ skill.name }}</h1>
+    <form id="updateSkillForm" method="POST" action="/api/update_skill_form/{{ skill.id }}">
+        <input type="hidden" id="skill_id" value="{{ skill.id }}">
+        
+        <label for="edit_name">Nama Skill:</label>
+        <input type="text" id="edit_name" name="name" value="{{ skill.name }}" required>
+        
+        <label for="edit_level">Level:</label>
+        <select id="edit_level" name="level" required>
+            <option value="Beginner" {% if skill.level == 'Beginner' %}selected{% endif %}>Beginner</option>
+            <option value="Intermediate" {% if skill.level == 'Intermediate' %}selected{% endif %}>Intermediate</option>
+            <option value="Expert" {% if skill.level == 'Expert' %}selected{% endif %}>Expert</option>
+        </select>
+        
+        <label for="edit_icon">Icon (Class FontAwesome):</label>
+        <input type="text" id="edit_icon" name="icon" value="{{ skill.icon }}" placeholder="Contoh: fa-brands fa-python">
+        
+        <div class="form-actions">
+            <button type="submit">Update Skill</button>
+            <a href="{{ url_for('home') }}" class="back-button">Kembali</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
